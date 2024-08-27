@@ -26,8 +26,9 @@ public final class Constants {
     public static final int kLeftShooterMotor = 10;
     public static final int kRightShooterMotor = 9;
     public static final int kFeedMotor = 11;
-    public static final int kIntakeMotor1 = 12;
-    public static final int kIntakeMotor2 = 13; //???
+    public static final int kIntake = 12;
+    public static final int kWrist = 13;
+    public static final int kRackPinion = 14;
   }
 
   public static class DriveConstants {
