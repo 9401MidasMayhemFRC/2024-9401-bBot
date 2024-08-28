@@ -108,11 +108,11 @@ public class Shooter extends SubsystemBase{
             m_rightMotor.stopMotor();
         }
 
-        SmartDashboard.putBoolean("Enabled", m_enabled);
-        SmartDashboard.putNumber("Target Velo.", m_velo);
-        SmartDashboard.putNumber("Actual Left Velo.", getLeftActualVelo());
-        SmartDashboard.putNumber("Actual Right Velo.", getRightActualVelo());
-        SmartDashboard.putNumber("Actual Average Velo.", getAVGActualVelo());
+        SmartDashboard.putBoolean("Shooter Enabled", m_enabled);
+        SmartDashboard.putNumber("Shooter Target Velo.", m_velo);
+        SmartDashboard.putNumber("Shooter Actual Left Velo.", getLeftActualVelo());
+        SmartDashboard.putNumber("Shooter Actual Right Velo.", getRightActualVelo());
+        SmartDashboard.putNumber("Shooter Actual Average Velo.", getAVGActualVelo());
 
         
     }
