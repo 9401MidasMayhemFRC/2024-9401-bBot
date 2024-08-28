@@ -28,12 +28,13 @@ public class Intake extends SubsystemBase {
         m_motor.setSmartCurrentLimit(0);
         m_motor.enableVoltageCompensation(12.0);
         m_motor.setIdleMode(IdleMode.kBrake);
-        m_motor.burnFlash();
 
         m_PID.setP(0.01);
         m_PID.setI(0.0);
         m_PID.setD(0.0);
         m_PID.setFF(1.0/5676.0);
+
+        m_motor.burnFlash();
     }
 
     public void enable(){
@@ -65,6 +66,10 @@ public class Intake extends SubsystemBase {
 
     public double getActualVelo(){
         return m_encoder.getVelocity();
+    }
+
+    public double getCurrent(){
+        return m_motor.getOutputCurrent();
     }
     
     @Override
