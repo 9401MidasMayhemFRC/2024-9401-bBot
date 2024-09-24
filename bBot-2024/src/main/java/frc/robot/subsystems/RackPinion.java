@@ -48,12 +48,12 @@ public class RackPinion extends SubsystemBase {
     public Command disableCMD(){
         return new InstantCommand(()-> disableCMD());
     }
-    public void setPosition(double position){
+    public void setPose(double position){
         m_pose = position;
     }
     
     public Command setPositionCMD(double position){
-        return new InstantCommand(()-> setPosition(position));
+        return new InstantCommand(()-> setPose(position));
     }
 
     public double getActualPosition(){
@@ -66,6 +66,20 @@ public class RackPinion extends SubsystemBase {
     
     public double getCurrent(){
        return m_motor.getOutputCurrent(); 
+    }
+
+    public void zero(){
+        m_enabled = false;
+        m_motor.set(-0.1);
+    }
+
+    public void setZero(){
+        m_encoder.setPosition(-1.0);
+    }
+
+    public void stop(){
+        m_enabled = false;
+        m_motor.stopMotor();
     }
     
     

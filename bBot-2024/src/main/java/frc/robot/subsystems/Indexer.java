@@ -11,24 +11,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CanIDConstants;
-//neo 550
-public class Feeder extends SubsystemBase {
-    private CANSparkMax m_motor = new CANSparkMax(CanIDConstants.kFeedMotor, MotorType.kBrushless);
+
+public class Indexer extends SubsystemBase{
+    //neo 550
+    private CANSparkMax m_motor = new CANSparkMax(CanIDConstants.kIndexer, MotorType.kBrushless);
     private RelativeEncoder m_encoder = m_motor.getEncoder();
     private SparkPIDController m_PID = m_motor.getPIDController();
 
-    public Feeder(){
+    public Indexer(){
         m_motor.restoreFactoryDefaults();
         m_motor.setInverted(false);
         m_motor.setSmartCurrentLimit(0);
         m_motor.enableVoltageCompensation(12.0);
         m_motor.setIdleMode(IdleMode.kBrake);
-
-        m_PID.setP(0.0001);
+        
+        m_PID.setP(0.000005);
         m_PID.setFF(1.0/11000);
         m_motor.burnFlash();
     }
-
+    
     public void setSpeedPercent(double percent){
         m_motor.set(percent/100);
     }
@@ -45,7 +46,7 @@ public class Feeder extends SubsystemBase {
         return new InstantCommand(()-> setSpeedDecimal(decimal));
     }
 
-    public void stopFeeder(){
+    public void stopIndexer(){
         m_motor.stopMotor();
     }
 
@@ -57,13 +58,9 @@ public class Feeder extends SubsystemBase {
         return m_motor.get();
     }
 
-    public double getCurrent(){
-        return m_motor.getOutputCurrent();
-    }
-
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Feeder Motor Speed in Percent", getSpeedPercent());
-        SmartDashboard.putNumber("Feeder Motor Speed in Decimal", getSpeedDecimal());
+        SmartDashboard.putNumber("Indexer Motor Speed in Percent", getSpeedPercent());
+        SmartDashboard.putNumber("Indexer Motor Speed in Decimal", getSpeedDecimal());
     }
 }
