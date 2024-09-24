@@ -4,10 +4,18 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import java.awt.geom.Point2D;
+
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -220,4 +228,68 @@ public final class Constants {
     public static double kLinear = 0.05;
     public static double kDeadband = 0.02;
   }
+
+  public static class AmpConstants{
+
+    public static final Point2D[] kAngleTable = {
+    /*new Point2D(x = distance, y = angle required)*/
+    };
+
+    public static final Point2D[] kVeloTable = {
+    /*new Point2D(x = distance, y = velo required)*/
+    };
+
+  }
+
+   public static class ShootingConstants{
+
+    public static final Point2D[] kAngleTable = {
+      new Point2D.Double(45.5, 47.77),
+      new Point2D.Double(57.5, 41.76),
+      new Point2D.Double(69.5, 35.75),
+      new Point2D.Double(87.5, 29.60),
+      new Point2D.Double(105.5, 23.80),
+      new Point2D.Double(123.5, 18.80),
+      new Point2D.Double(141.5, 13.80),
+      new Point2D.Double(159.5, 10.90),
+      new Point2D.Double(177.5, 8.90),
+      new Point2D.Double(195.5, 5.50),
+      new Point2D.Double(240.0, 4.50)
+  };
+
+  public static final Point2D[] kVeloTable = {
+      new Point2D.Double(45.5, 37.23),
+      new Point2D.Double(57.5, 40.24),
+      new Point2D.Double(69.5, 42.81),
+      new Point2D.Double(87.5, 47.00),
+      new Point2D.Double(105.5, 50.00),
+      new Point2D.Double(123.5, 57.00),
+      new Point2D.Double(141.5, 68.00),
+      new Point2D.Double(159.5, 70.28),
+      new Point2D.Double(177.5, 75.00),
+      new Point2D.Double(195.5, 75.00),
+      new Point2D.Double(240.0, 75.00),
+
+  };
+  }
+
+  public static class VisionConstants{
+
+    public static Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+
+  }
+
+  public static final class Auto {
+    public static final HolonomicPathFollowerConfig autoConfig = new HolonomicPathFollowerConfig(
+        new PIDConstants(5.0, 0, 0), new PIDConstants(5.0, 0, 0), DriveConstants.kMaxSpeedMetersPerSecond,
+        DriveConstants.kWheelBaseRadius, new ReplanningConfig());
+  }
+
+  public static final class GoalConstants {
+    public static final Translation2d kRedGoal = new Translation2d(643.23 / 39.37, 218.42 / 39.37);
+    public static final Translation2d kBlueGoal = new Translation2d(8.00 / 39.37, 218.42 / 39.37);
+    public static final Translation2d kRedFeed = new Translation2d(610.23 / 39.37, 280.0 / 39.37);
+    public static final Translation2d kBlueFeed = new Translation2d(41.0 / 39.37, 280.0 / 39.37);
+  }
+  
 }

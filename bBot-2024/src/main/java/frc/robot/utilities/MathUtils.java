@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
 import java.awt.geom.Point2D;
 
@@ -67,16 +68,6 @@ public class MathUtils {
         m_map.put(points[i].getX(), points[i].getY());
       }
       return m_map;
-    }
-
-    public static double RadiansToDegrees(double radians){
-      double conversionFactor = 180/Math.PI;
-      return radians * conversionFactor;
-    }
-
-    public static double DegreesToRadians(double degrees){
-      double conversionFactor = 180/Math.PI;
-      return degrees / conversionFactor;
     }
 
     }
