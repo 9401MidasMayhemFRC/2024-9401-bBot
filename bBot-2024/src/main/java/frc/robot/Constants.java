@@ -37,7 +37,7 @@ public final class Constants {
     public static final int kIntake = 12;
     public static final int kWrist = 13;
     public static final int kRackPinion = 14;
-    public static final int kPneumatic = 15;
+    public static final int kClimber = 15;
     public static final int kIndexer = 16;
   }
 

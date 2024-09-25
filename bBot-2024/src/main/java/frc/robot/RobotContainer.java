@@ -25,6 +25,7 @@ import frc.robot.Constants.Auto;
 import frc.robot.commands.DriveByController;
 import frc.robot.commands.IntakeNote;
 import frc.robot.commands.IntermidateShootingCommand;
+import frc.robot.commands.ZeroClimber;
 import frc.robot.commands.ZeroShooter;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
@@ -146,7 +147,12 @@ public class RobotContainer {
                                                                        m_indexer.stopIndexer();
                                                                        m_intake.setVelo(0.0);}));
 
-    m_driverController.y().onTrue(new ZeroShooter(m_rackPinion));
+    m_driverController.y().onTrue(new ZeroShooter(m_rackPinion).alongWith(new ZeroClimber(m_climber)));
+
+    m_driverController.start().onTrue(m_climber.extend());
+
+    m_driverController.back().onTrue(m_climber.retract());
+
   }
 
   /**
