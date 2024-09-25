@@ -25,5 +25,25 @@
       }
     },
   ],
-  "java.test.defaultConfig": "WPIlibUnitTests"
+  "java.test.defaultConfig": "WPIlibUnitTests",
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#774a79",
+    "activityBar.background": "#774a79",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#282718",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#774a79",
+    "statusBar.background": "#583759",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#774a79",
+    "statusBarItem.remoteBackground": "#583759",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#583759",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#58375999",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#583759"
 }

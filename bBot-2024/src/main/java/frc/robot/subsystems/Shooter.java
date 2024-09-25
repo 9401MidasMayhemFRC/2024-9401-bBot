@@ -30,29 +30,31 @@ public class Shooter extends SubsystemBase{
     public Shooter() {
         m_leftMotor.restoreFactoryDefaults();
         m_leftMotor.setInverted(false);
-        m_leftMotor.setSmartCurrentLimit(0);
+        m_leftMotor.setSmartCurrentLimit(20);
         m_leftMotor.enableVoltageCompensation(12.0);
         m_leftMotor.setIdleMode(IdleMode.kBrake);
-        m_leftMotor.burnFlash();
 
         m_leftPID.setFeedbackDevice(m_leftEncoder);
         m_leftPID.setP(0.01);
         m_leftPID.setI(0.0);
         m_leftPID.setD(0.0);
         m_leftPID.setFF(1.0/5676.0);
+
+        m_leftMotor.burnFlash();
         
         m_rightMotor.restoreFactoryDefaults();
         m_rightMotor.setInverted(true);
         m_rightMotor.setSmartCurrentLimit(20);
         m_rightMotor.enableVoltageCompensation(12.0);
         m_leftMotor.setIdleMode(IdleMode.kBrake);
-        m_rightMotor.burnFlash();
         
         m_rightPID.setFeedbackDevice(m_rightEncoder);
         m_rightPID.setP(0.01);
         m_rightPID.setI(0.0);
         m_rightPID.setD(0.0);
         m_rightPID.setFF(1.0/5676.0);
+
+        m_rightMotor.burnFlash();
     
     
     }
@@ -108,11 +110,11 @@ public class Shooter extends SubsystemBase{
             m_rightMotor.stopMotor();
         }
 
-        SmartDashboard.putBoolean("Enabled", m_enabled);
-        SmartDashboard.putNumber("Target Velo.", m_velo);
-        SmartDashboard.putNumber("Actual Left Velo.", getLeftActualVelo());
-        SmartDashboard.putNumber("Actual Right Velo.", getRightActualVelo());
-        SmartDashboard.putNumber("Actual Average Velo.", getAVGActualVelo());
+        SmartDashboard.putBoolean("Shooter Enabled", m_enabled);
+        SmartDashboard.putNumber("Shooter Target Velo.", m_velo);
+        SmartDashboard.putNumber("Shooter Actual Left Velo.", getLeftActualVelo());
+        SmartDashboard.putNumber("Shooter Actual Right Velo.", getRightActualVelo());
+        SmartDashboard.putNumber("Shooter Actual Average Velo.", getAVGActualVelo());
 
         
     }
