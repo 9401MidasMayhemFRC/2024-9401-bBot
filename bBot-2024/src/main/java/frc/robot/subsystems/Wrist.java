@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 //import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -20,46 +21,28 @@ public class Wrist extends SubsystemBase{
     private final RelativeEncoder m_encoder = m_motor.getEncoder();
     private final SparkPIDController m_PID = m_motor.getPIDController();
 
-    private boolean m_enablePID = true;
-
-    private double m_position = 2;
+    private double m_position = 0.2;
     
     public Wrist(){
-        m_motor.restoreFactoryDefaults();
-        m_motor.setSmartCurrentLimit(30);
+        //m_motor.getEncoder().setPosition(0.0);
+        m_motor.setSmartCurrentLimit(40);
         m_motor.enableVoltageCompensation(12.0);
-        //m_motor.setSoftLimit(SoftLimitDirection.kReverse, (float)1.0 );
-        //m_motor.setSoftLimit(SoftLimitDirection.kForward, (float)60.0 );
+        m_motor.setSoftLimit(SoftLimitDirection.kReverse, (float) 0.0);
+        m_motor.setSoftLimit(SoftLimitDirection.kForward, (float)14.0);
         m_motor.setInverted(false);
         m_motor.setIdleMode(IdleMode.kBrake);
-        m_PID.setP(0.00005);
-        m_PID.setFF(0.00018);
+        m_PID.setP(0.05);
         m_motor.burnFlash();
     }
 
-    public void setPosition(double poisition){
-        m_position = poisition;
+    public void setPosition(double position){
+        if(position > 13.4){position = 13.0;}
+        if(position < 1.0){position = 1.0;}
+        m_position = position;
     }
 
-    public Command setPositionCMD(double position){
-        return new InstantCommand(()-> setPosition(position));
-    }
-
-    public void disable(){
-        m_motor.stopMotor();
-        m_enablePID = false;
-    }
-
-    public Command disableCMD(){
-        return new InstantCommand(()-> disable());
-    }
-
-    public void enable(){
-        m_enablePID = true;
-    }
-
-    public Command enableCMD(){
-        return new InstantCommand(()-> enable());
+    public Command actuateIntake(double pose){
+        return runEnd(()->setPosition(pose),()->setPosition(1.0));
     }
 
     public double getCurrent(){
@@ -79,12 +62,9 @@ public class Wrist extends SubsystemBase{
     public void periodic(){
 
 
-        if(m_enablePID){
             m_PID.setReference(m_position, ControlType.kPosition);
-        }
         
         SmartDashboard.putNumber("Wrist Actual Pose", getActualPosition());
-        SmartDashboard.putNumber("Wrist Output Current", getCurrent());
         SmartDashboard.putNumber("Wrist Target Pose", getTargetPosition());
 
     }

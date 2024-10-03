@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.7349016236494026,
+        "y": 5.535354916863679
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.261288368730585,
+        "y": 5.535354916863679
+      },
+      "isLocked": false,
+      "linkedName": "C4 1-5A End"
+    },
+    {
+      "anchor": {
+        "x": 1.4028643441902284,
+        "y": 5.535354916863679
+      },
+      "prevControl": {
+        "x": 1.6988726285144895,
+        "y": 5.535354916863679
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "C4 1-6 End"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 270.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Center 4pc.",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

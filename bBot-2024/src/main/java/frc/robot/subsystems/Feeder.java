@@ -14,56 +14,24 @@ import frc.robot.Constants.CanIDConstants;
 //neo 550
 public class Feeder extends SubsystemBase {
     private CANSparkMax m_motor = new CANSparkMax(CanIDConstants.kFeedMotor, MotorType.kBrushless);
-    private RelativeEncoder m_encoder = m_motor.getEncoder();
-    private SparkPIDController m_PID = m_motor.getPIDController();
-
+    
     public Feeder(){
-        m_motor.restoreFactoryDefaults();
         m_motor.setInverted(false);
-        m_motor.setSmartCurrentLimit(0);
+        m_motor.setSmartCurrentLimit(20);
         m_motor.enableVoltageCompensation(12.0);
-        m_motor.setIdleMode(IdleMode.kBrake);
-
-        m_PID.setP(0.0001);
-        m_PID.setFF(1.0/11000);
+        m_motor.setIdleMode(IdleMode.kCoast);
         m_motor.burnFlash();
     }
 
-    public void setSpeedPercent(double percent){
-        m_motor.set(percent/100);
+    public void run(double speed){
+        m_motor.set(speed);
     }
 
-    public void setSpeedDecimal(double decimal){
-        m_motor.set(decimal);
-    }
-
-    public Command setSpeedPercentCMD(double percent){
-        return new InstantCommand(()-> setSpeedPercent(percent));
-    }
-
-    public Command setSpeedDecimalCMD(double decimal){
-        return new InstantCommand(()-> setSpeedDecimal(decimal));
-    }
-
-    public void stopFeeder(){
+    public void stop(){
         m_motor.stopMotor();
     }
 
-    public double getSpeedPercent(){
-        return (m_motor.get()) * 100;
-    }
-    
-    public double getSpeedDecimal(){
-        return m_motor.get();
-    }
-
-    public double getCurrent(){
-        return m_motor.getOutputCurrent();
-    }
-
-    @Override
-    public void periodic() {
-        SmartDashboard.putNumber("Feeder Motor Speed in Percent", getSpeedPercent());
-        SmartDashboard.putNumber("Feeder Motor Speed in Decimal", getSpeedDecimal());
+    public Command runFeeder(double speed){
+        return runEnd(()->run(speed), ()->stop());
     }
 }

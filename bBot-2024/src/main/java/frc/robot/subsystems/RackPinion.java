@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +20,7 @@ public class RackPinion extends SubsystemBase {
     private RelativeEncoder m_encoder = m_motor.getEncoder();
     private SparkPIDController m_PID = m_motor.getPIDController();
 
-    private double m_pose = 0.0;
+    private double m_pose = 5.0;
     private boolean m_enabled = true;
 
     public RackPinion(){
@@ -27,10 +28,11 @@ public class RackPinion extends SubsystemBase {
         m_motor.restoreFactoryDefaults();
         m_motor.setSmartCurrentLimit(60);
         m_motor.enableVoltageCompensation(12.0);
-        m_motor.setInverted(false);
+        m_motor.setInverted(true);
+        m_motor.setSoftLimit(SoftLimitDirection.kForward, (float) 65.0);
+        m_motor.setSoftLimit(SoftLimitDirection.kReverse, (float) 1.0);
         m_motor.setIdleMode(IdleMode.kBrake);
-        m_PID.setP(0.000005);
-        m_PID.setFF(1/5676);
+        m_PID.setP(0.5);
         m_motor.burnFlash();
     }
     
@@ -53,7 +55,7 @@ public class RackPinion extends SubsystemBase {
     }
     
     public Command setPositionCMD(double position){
-        return new InstantCommand(()-> setPose(position));
+        return runOnce(()-> setPose(position));
     }
 
     public double getActualPosition(){

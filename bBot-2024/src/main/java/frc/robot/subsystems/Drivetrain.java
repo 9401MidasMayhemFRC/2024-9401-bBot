@@ -60,22 +60,22 @@ public class Drivetrain extends SubsystemBase {
     // Create MAXSwerveModules
     private final SwerveModule m_frontLeft = new SwerveModule(
         DriveConstants.kFrontLeftDrivingCanId,
-        DriveConstants.kFrontLeftTurningCanId,0,0.0);
+        DriveConstants.kFrontLeftTurningCanId,DriveConstants.kFrontLeftTurningEncoderPort,DriveConstants.kFrontLeftOffset);
   
     private final SwerveModule m_frontRight = new SwerveModule(
         DriveConstants.kFrontRightDrivingCanId,
         DriveConstants.kFrontRightTurningCanId,
-        0,0.0);
+        DriveConstants.kFrontRightTurningEncoderPort,DriveConstants.kFrontRightOffset);
   
     private final SwerveModule m_rearLeft = new SwerveModule(
         DriveConstants.kRearLeftDrivingCanId,
         DriveConstants.kRearLeftTurningCanId,
-        0,0.0);
+        DriveConstants.kBackLeftTurningEncoderPort,DriveConstants.kBackLeftOffset);
   
     private final SwerveModule m_rearRight = new SwerveModule(
         DriveConstants.kRearRightDrivingCanId,
         DriveConstants.kRearRightTurningCanId,
-        0,0.0);
+        DriveConstants.kBackRightTurningEncoderPort,DriveConstants.kBackRightOffset);
 
   // Creates an ahrs gyro (NavX) on the MXP port of the RoboRIO
   private static AHRS ahrs = new AHRS(SPI.Port.kMXP);
@@ -203,6 +203,11 @@ public class Drivetrain extends SubsystemBase {
      SmartDashboard.putNumber("Back Left Speed", m_rearLeft.getState().speedMetersPerSecond);
      SmartDashboard.putNumber("Back Right Speed", m_rearRight.getState().speedMetersPerSecond);
 
+     SmartDashboard.putNumber("Front Left Encoder", m_frontLeft.getState().angle.getRadians());
+     SmartDashboard.putNumber("Front Right Encoder", m_frontRight.getState().angle.getRadians());
+     SmartDashboard.putNumber("Rear Left Encoder", m_rearLeft.getState().angle.getRadians());
+     SmartDashboard.putNumber("Rear Right Encoder", m_rearRight.getState().angle.getRadians());
+
      //SmartDashboard.putNumber("Front Left Speed", m_frontLeft.getState().speedMetersPerSecond);
      //SmartDashboard.putNumber("Front Right Speed",m_frontRight.getState().speedMetersPerSecond);
      //SmartDashboard.putNumber("Back Left Speed", m_backLeft.getState().speedMetersPerSecond);
@@ -304,7 +309,7 @@ public class Drivetrain extends SubsystemBase {
    * @return Rotation2d object containing Gyro angle
    */
   public Rotation2d getGyro() {
-    return ahrs.getRotation2d();
+    return ahrs.getRotation2d().times(-1.0);
   }
 
   /**
