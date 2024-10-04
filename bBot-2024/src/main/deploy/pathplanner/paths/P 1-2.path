@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.442332115433463,
-        "y": 5.584689630917723
+        "x": 2.4783611105683763,
+        "y": 5.54
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.442332115433463,
-        "y": 5.584689630917723
+        "x": 3.96826947500049,
+        "y": 6.60098474043102
       },
       "isLocked": false,
-      "linkedName": "C4 1-4 End"
+      "linkedName": "P 1-1 End"
     },
     {
       "anchor": {
-        "x": 2.7349016236494026,
-        "y": 5.535354916863679
+        "x": 7.826244114026691,
+        "y": 5.762294601512281
       },
       "prevControl": {
-        "x": 1.7349016236494026,
-        "y": 5.535354916863679
+        "x": 6.5632754342431765,
+        "y": 6.808190539458002
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C4 1-5A End"
+      "linkedName": "P 1-2 End"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center 4pc.",
+  "folder": "Practice",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

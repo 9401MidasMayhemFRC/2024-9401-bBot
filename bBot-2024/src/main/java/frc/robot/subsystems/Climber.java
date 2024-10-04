@@ -28,26 +28,18 @@ public class Climber extends SubsystemBase {
         m_motor.restoreFactoryDefaults();
         m_motor.enableVoltageCompensation(12.0);
         m_motor.setSmartCurrentLimit(60);
-        m_motor.setInverted(false);
+        m_motor.setInverted(true);
         m_motor.setIdleMode(IdleMode.kBrake);
-        m_motor.setSoftLimit(SoftLimitDirection.kForward, (float)50.0);
+        m_motor.setSoftLimit(SoftLimitDirection.kForward, (float)390.0);
         m_motor.setSoftLimit(SoftLimitDirection.kReverse, (float)0.0);
 
-        m_PID.setP(0.15);
+        m_PID.setP(0.5);
         m_PID.setI(0.0);
         m_PID.setD(0.0);
         m_PID.setFF(1.0/5676.0);
 
         m_motor.burnFlash();
 
-    }
-
-    public Command extend(){
-        return new InstantCommand(()->setpoint = m_motor.getSoftLimit(SoftLimitDirection.kForward));
-    }
-
-    public Command retract(){
-        return new InstantCommand(()->setpoint = m_motor.getSoftLimit(SoftLimitDirection.kReverse));
     }
     
     public void zero(){
@@ -76,6 +68,14 @@ public class Climber extends SubsystemBase {
         m_motor.stopMotor();
     }
 
+    public Command retract(){
+        return startEnd(()->setpoint = m_motor.getSoftLimit(SoftLimitDirection.kReverse), ()-> setpoint = m_encoder.getPosition());
+    }
+
+    public Command extend(){
+        return startEnd(()->setpoint = m_motor.getSoftLimit(SoftLimitDirection.kForward)-20.0, ()-> setpoint = m_encoder.getPosition());
+    }
+
 
     @Override
     public void periodic() {
@@ -85,6 +85,7 @@ public class Climber extends SubsystemBase {
         }
 
         SmartDashboard.putNumber("Current of Climber", getCurrent());
+        SmartDashboard.putNumber("Climber Pose.", m_encoder.getPosition());
         
     }
 }

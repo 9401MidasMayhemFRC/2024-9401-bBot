@@ -57,6 +57,7 @@ public class RobotContainer {
   private Feeder m_feeder = new Feeder();
   private RackPinion m_rackPinion = new RackPinion();
   private Shooter m_shooter = new Shooter();
+  private Climber m_climber = new Climber();
   // private PhotonCamera m_cam = new PhotonCamera("camera");
 
   // private PoseEstimator m_poseEstimator = new PoseEstimator(m_drive, m_cam);
@@ -72,12 +73,13 @@ public class RobotContainer {
 
     // NamedCommands.registerCommand("Name of Command", actual command);
     NamedCommands.registerCommand("Intake", new ParallelCommandGroup(m_wrist.actuateIntake(13.4), m_intake.runIntake(0.8), m_feeder.runFeeder(0.9), m_indexer.runIndexer(0.9)));
-    NamedCommands.registerCommand("Kickback", m_feeder.runFeeder(-0.4).withTimeout(0.070));
+    NamedCommands.registerCommand("Kickback", (m_feeder.runFeeder(-0.4).alongWith(m_shooter.runShooter(-500.0))).withTimeout(0.050));
     NamedCommands.registerCommand("Aim Shooter", new ParallelCommandGroup(m_rackPinion.setPositionCMD(57.0),m_shooter.runShooter(2500.0)));
     NamedCommands.registerCommand("Aim Shooter CL", new ParallelCommandGroup(m_rackPinion.setPositionCMD(50.0),m_shooter.runShooter(2750.0)));
-    NamedCommands.registerCommand("Shoot", (m_feeder.runFeeder(0.8).alongWith(m_indexer.runIndexer(0.8))).withTimeout(0.1));
+    NamedCommands.registerCommand("Aim Shooter Amp", new ParallelCommandGroup(m_rackPinion.setPositionCMD(45.0),m_shooter.runShooter(3000.0)));
+    NamedCommands.registerCommand("Shoot", (m_feeder.runFeeder(0.8).alongWith(m_indexer.runIndexer(0.8))).withTimeout(0.25));
 
-
+    NamedCommands.registerCommand("Zero Climber", new ZeroClimber(m_climber));
   }
 
   public void configureAutoBuilder() {
@@ -153,30 +155,19 @@ public class RobotContainer {
             .alongWith(m_intake.runIntake(0.8))
             .alongWith(m_indexer.runIndexer(0.9))
             .alongWith(m_feeder.runFeeder(0.9)))
-        .onFalse(m_feeder.runFeeder(-0.4).withTimeout(0.070));
+        .onFalse((m_feeder.runFeeder(-0.4).alongWith(m_shooter.runShooter(-500.0))).withTimeout(0.050));
     m_driverController.rightBumper().whileTrue(m_wrist.actuateIntake(8.0).alongWith(m_intake.runIntake(-0.5))
         .alongWith(m_indexer.runIndexer(-0.5)).alongWith(m_feeder.runFeeder(-0.5)));
 
-    m_driverController.leftTrigger().whileTrue(m_shooter.runShooter(2500.0)).onTrue(m_rackPinion.setPositionCMD(57.0)).onFalse(m_rackPinion.setPositionCMD(5.0));
+    m_driverController.leftTrigger().whileTrue(m_shooter.runShooter(3000.0)).onTrue(m_rackPinion.setPositionCMD(57.0)).onFalse(m_rackPinion.setPositionCMD(5.0));
     m_driverController.rightTrigger().whileTrue(m_feeder.runFeeder(0.8).alongWith(m_indexer.runIndexer(0.8)));
-    /*
-     * m_driverController.leftBumper().whileTrue(new IntakeNote(m_wrist, m_intake,
-     * m_feeder, m_indexer));
-     * 
-     * m_driverController.leftTrigger().whileTrue(new
-     * IntermidateShootingCommand(m_drive, m_shooter, m_rackPinion,
-     * m_poseEstimator::getPose, m_cam, m_driverController));
-     * 
-     * m_driverController.rightTrigger().onTrue(new InstantCommand(()-> {
-     * m_feeder.setSpeedPercent(25);
-     * m_indexer.setSpeedPercent(55.5);
-     * m_intake.setVelo(5676.0/2);}))
-     * .onFalse(new InstantCommand(()-> { m_feeder.stopFeeder();
-     * m_indexer.stopIndexer();
-     * m_intake.setVelo(0.0);}));
-     * 
-     * m_driverController.y().onTrue(new ZeroShooter(m_rackPinion));
-     */
+
+    m_driverController.y().onTrue(new ZeroClimber(m_climber));
+
+    m_driverController.start().whileTrue(m_climber.retract());
+
+    m_driverController.back().whileTrue(m_climber.extend());
+    
 
   }
 
@@ -188,5 +179,9 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return m_chooser.getSelected();
+  }
+
+  public Command getTestCommand(){
+    return new ParallelCommandGroup(new ZeroClimber(m_climber));
   }
 }
